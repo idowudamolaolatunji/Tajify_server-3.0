@@ -46,6 +46,7 @@ const userSchema = new mongoose.Schema({
 		default: "",
 	},
 	slug: String,
+	bio: String,
 	referralUrl: String,
 	profileUrl: String,
 	myInviterID: {
@@ -86,6 +87,7 @@ const userSchema = new mongoose.Schema({
 	passwordChangedAt: Date,
 	passwordResetToken: String,
 	passwordResetEpires: Date,
+	//////////////////////
 
 	// user metrics
 	followers: [{ type: mongoose.Schema.Types.ObjectId }],
@@ -100,8 +102,6 @@ const userSchema = new mongoose.Schema({
 	totalProducts: { type: Number, default: 0 },
 	productBought: [{ type: mongoose.Schema.Types.ObjectId }],
 	blogPostBought: [{ type: mongoose.Schema.Types.ObjectId }],
-
-	
 
 }, {
 	timestamps: true
@@ -129,6 +129,7 @@ userSchema.pre("save", function (next) {
 	this.profileUrl = `profile/${this.slug}`;
 	next();
 });
+
 userSchema.pre("save", function (next) {
 	this.otpExpiresIn = Date.now() + 5 * 60 * 1000;
 	next();

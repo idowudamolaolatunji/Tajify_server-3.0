@@ -376,6 +376,28 @@ exports.getBlogsbyCreatorId = async function (req, res) {
     }
 }
 
+exports.getMoreBlogsbyCreatorId = async function (req, res) {
+    try {
+        const { id, blogId } = req.params;
+        const creator = await User.findById(id);
+        const creatorBlogs = await Blog.find({ creator: creator._id, _id: { $ne: blogId } }).limit(4);
+
+        res.status(200).json({
+            status: 'success',
+            count: creatorBlogs.length,
+            data: {
+                blogs: creatorBlogs
+            }
+        })
+
+    } catch(err) {
+        return res.status(400).json({
+            status: 'fail',
+            message: err.mesage || 'Something went wrong'
+        })
+    }
+}
+
 // get blogs by tags
 exports.getBlogsByTags = async function (req, res) {
     try {

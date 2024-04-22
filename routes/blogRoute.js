@@ -31,7 +31,11 @@ router.delete('/:id', authProtected, blogController.deleteBlog);
 router.get('/category/:category', blogController.getBlogsByCategory);
 router.get('/creator/myBlogs', authProtected, blogController.getMyBlogs);
 // router.get('/myBlogs', authProtected, blogController.getMyBlogs);
+
+// GET BLOGS BY CREATOR ID
 router.get('/creator/:id', blogController.getBlogsbyCreatorId);
+// GET BLOGS BY CREATOR ID EXCEPT CURRENT BLOG BY ID
+router.get('/creator/more/:id/:blogId', blogController.getMoreBlogsbyCreatorId);
 
 // 
 router.get('/tags/:tags', blogController.getBlogsByTags);

@@ -23,12 +23,11 @@ exports.signup = async (req, res) => {
 		if (emailExist) return res.json({ message: "Email already used, User Exists" });
 		if (usernameExist) return res.json({ message: "Username already used, User Exists" });
 
-        const userWallet = await Wallet.findOne({ user: requestingUser._id });
-
 		const newOtp = generateOtp();
 		const emailOtp = otpEmail(newOtp);
 		const newUser = await User.create({
 			username: req.body.username,
+			fullname: req.body.fullname,
 			email: req.body.email,
 			password: req.body.password,
 			passwordConfirm: req.body.passwordConfirm,
@@ -269,7 +268,7 @@ exports.forgotPassword = async (req, res) => {
 
 		// 3) Send it to user's email
 
-		const resetURL = `https://127.0.0.1:3005/api/users/reset-password/${resetToken}`;
+		const resetURL = `http://127.0.0.1:3005/api/users/reset-password/${resetToken}`;
 
 		const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you didn't forget your password, please ignore this email!`;
 		await sendEmail({
