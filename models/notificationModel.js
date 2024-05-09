@@ -36,4 +36,4 @@ notificationSchema.pre(/^find/, function(next) {
 
 
 const Notification = mongoose.model('Notification', notificationSchema);
-module.exports.Notification;
+module.exports = Notification;

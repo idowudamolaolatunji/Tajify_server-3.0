@@ -25,6 +25,9 @@ const upload = multer({
 // SINGLE IMAGE UPLOAD
 exports.uploadSinglePhoto = upload.single('image');
 
+// MULTIPLE PRODUXCT IMAGE UPLOADS
+exports.uploadMultipleProductPhoto = upload.array('images', 6);
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +63,25 @@ exports.resizeSingleBlogPhoto = async function (req, res, next) {
             .toFormat('jpeg')
             .jpeg({ quality: 70 })
             .toFile(`public/asset/blogs/${req.file.filename}`);
+        next();
+
+    } catch(err) {
+        next(err)
+    }
+};
+
+
+exports.resizeProductCategoryImage = async function (req, res, next) {
+    if(!req.file) return next();
+
+    try {
+        req.file.filename = `product-category-${req.params.id}-${Date.now()}.jpeg`;
+
+        await sharp(req.file.buffer)
+            .resize(600, 400)
+            .toFormat('jpeg')
+            .jpeg({ quality: 80 })
+            .toFile(`public/asset/products/${req.file.filename}`);
         next();
 
     } catch(err) {

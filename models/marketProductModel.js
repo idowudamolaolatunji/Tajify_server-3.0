@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { default: slugify } = require('slugify');
 
 
 const marketProductSchema = new mongoose.Schema({
@@ -15,6 +16,9 @@ const marketProductSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    images: {
+        type: [String],
+    },
     category: String,
     rating: {
         type: Number,
@@ -26,18 +30,36 @@ const marketProductSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
-        maxLength: 800
+        maxLength: 1000
     },
     specifications: {
         type: [String],
         required: true
+    },
+    soldCount: {
+        type: Number,
+        default: 0
+    },
+    slug: String,
+    discountPercentage: {
+        type: Number,
+        default: 0
     }
+
 }, { timestamps: true },
 );
 
+
+marketProductSchema.pre('save', function(next) {
+    const slug = slugify(this.name, { lower: true, replacement: '-' });
+	this.slug = `${slug}-${this._id}`;
+
+    next();
+})
+
 marketProductSchema.pre(/^find/, function(next) {
     this.populate({
-        path: 'user',
+        path: 'creator',
         select: '_id image fullName username',
     });
 

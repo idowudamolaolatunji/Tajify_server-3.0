@@ -15,6 +15,7 @@ const stakeRouter = require("./routes/stakeRoute.js");
 const communityFeedRouter = require("./routes/communityFeedRoute.js");
 const searchRouter = require("./routes/searchRoute.js");
 const courseRouter = require('./routes/courseRoute.js');
+const marketProductRouter = require('./routes/marketProductRoute.js');
 
 //////////////////////////////////////////
 const app = express();
@@ -36,7 +37,7 @@ app.use(express.json({ limit: '10mb' }));
 // };
 // app.use(cors(corsOptions));
 
-app.use(cors());
+// app.use(cors());
 
 app.use(cors());
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -58,5 +59,6 @@ app.use("/api/kyc", kycRouter);
 app.use("/api/community-feeds", communityFeedRouter);
 app.use("/api/search", searchRouter);
 app.use("/api/courses", courseRouter);
+app.use("/api/market", marketProductRouter);
 
 module.exports = app;

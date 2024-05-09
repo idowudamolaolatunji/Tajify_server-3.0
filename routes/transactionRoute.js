@@ -9,6 +9,8 @@ const router = express.Router();
 // GET ALL TRANSACTIONS
 router.get('/', transactionController.allTransactions);
 
+// WALLET BALANCE
+router.get('/wallet-balance', authProtected, transactionController.getWallet);
 
 // (remember to change the route on the admin)
 router.get('/pending/deposits', transactionController.allPendingDeposits)

@@ -1,4 +1,25 @@
 const Transaction = require('../models/transactionModel');
+const Wallet = require('../models/walletModel');
+
+
+// GET USER WALLET AND BALANCE
+exports.getWallet = async (req, res) => {
+	try {
+		const wallet = await Wallet.findOne({ user: req.user._id });
+
+		res.status(200).json({
+			status: "success",
+			data: {
+				wallet,
+			},
+		});
+	} catch (err) {
+		return res.status(400).json({
+			status: "fail",
+			message: err.message,
+		});
+	}
+};
 
 // GET ALL TRANSACTION REGARDLESS WITHDRAWAL, DEPOSIT, REWARDS, STAKING
 exports.allTransactions = async(req, res) => {
